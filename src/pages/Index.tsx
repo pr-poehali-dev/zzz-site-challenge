@@ -4,13 +4,13 @@ import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 
 const CIPHER_MESSAGE = "ПОДАРОК ЖДЕТ В ТОМ МЕСТЕ, ГДЕ ТЫ МЕНЯЕШЬ СЕБЯ";
-const HIDDEN_CHARS = [0, 7, 15, 19, 26, 33, 38, 43];
+const HIDDEN_CHARS = [0, 8, 16, 20, 27, 34, 39, 44];
 
 const Index = () => {
   const [userInput, setUserInput] = useState<string[]>(Array(CIPHER_MESSAGE.length).fill(''));
   const [solved, setSolved] = useState(false);
   const [timeLeft, setTimeLeft] = useState('');
-  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -38,14 +38,36 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    if (audioRef.current) {
-      if (audioPlaying) {
-        audioRef.current.play();
-      } else {
-        audioRef.current.pause();
+    const playAudio = async () => {
+      if (audioRef.current) {
+        try {
+          if (audioPlaying) {
+            await audioRef.current.play();
+          } else {
+            audioRef.current.pause();
+          }
+        } catch (error) {
+          console.log('Autoplay blocked, user interaction needed');
+          setAudioPlaying(false);
+        }
       }
-    }
+    };
+    playAudio();
   }, [audioPlaying]);
+
+  useEffect(() => {
+    const startAudio = async () => {
+      if (audioRef.current) {
+        try {
+          await audioRef.current.play();
+        } catch (error) {
+          console.log('Autoplay blocked');
+          setAudioPlaying(false);
+        }
+      }
+    };
+    startAudio();
+  }, []);
 
   const toggleAudio = () => {
     setAudioPlaying(!audioPlaying);
@@ -101,7 +123,7 @@ const Index = () => {
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-50" />
 
       <audio ref={audioRef} loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+        <source src="https://cdn.pixabay.com/audio/2024/08/05/audio_6f0ed34aea.mp3" type="audio/mpeg" />
       </audio>
 
       <div className="absolute top-8 left-8 flex gap-4 z-20">
