@@ -6,7 +6,7 @@ export default {
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
-		"./src/**/*.{ts,tsx}",
+		"./src/**/*.{ts,tsx}"
 	],
 	prefix: "",
 	theme: {
@@ -84,11 +84,38 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				glitch: {
+					'0%, 90%, 100%': {
+						transform: 'translate(0)'
+					},
+					'92%': {
+						transform: 'translate(-2px, 2px)'
+					},
+					'94%': {
+						transform: 'translate(2px, -2px)'
+					},
+					'96%': {
+						transform: 'translate(-2px, -2px)'
+					},
+					'98%': {
+						transform: 'translate(2px, 2px)'
+					}
+				},
+				pulse: {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.7'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				glitch: 'glitch 3s infinite',
+				pulse: 'pulse 2s ease-in-out infinite'
 			}
 		}
 	},
