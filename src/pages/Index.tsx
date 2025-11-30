@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
@@ -11,6 +11,7 @@ const Index = () => {
   const [solved, setSolved] = useState(false);
   const [timeLeft, setTimeLeft] = useState('');
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const targetDate = new Date();
@@ -35,6 +36,20 @@ const Index = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (audioPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [audioPlaying]);
+
+  const toggleAudio = () => {
+    setAudioPlaying(!audioPlaying);
+  };
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return;
@@ -85,15 +100,31 @@ const Index = () => {
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-50" />
 
-      <div className="relative z-10 container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen">
-        <div className="mb-8 text-center">
-          <h1 className="text-6xl md:text-8xl font-black text-primary glitch mb-4">
-            ZENLESS
-          </h1>
-          <div className="text-3xl md:text-5xl font-bold text-secondary">
-            ZONE ZERO
+      <audio ref={audioRef} loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+      </audio>
+
+      <div className="absolute top-8 left-8 flex gap-4 z-20">
+        <div className="bg-card/80 backdrop-blur-sm border-2 border-primary/50 rounded-lg px-4 py-2">
+          <div className="text-xs text-muted-foreground mb-1">PROXY STATUS</div>
+          <div className="text-lg font-bold text-primary flex items-center gap-2">
+            <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+            ACTIVE
           </div>
         </div>
+        <div className="bg-card/80 backdrop-blur-sm border-2 border-secondary/50 rounded-lg px-4 py-2">
+          <div className="text-xs text-muted-foreground mb-1">ETHER LEVEL</div>
+          <div className="text-lg font-bold text-secondary">87.3%</div>
+        </div>
+      </div>
+
+      <div className="absolute top-8 right-8 z-20">
+        <div className="bg-card/80 backdrop-blur-sm border-2 border-primary/50 rounded-lg p-3">
+          <Icon name="Radio" className="text-primary" size={32} />
+        </div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen">
 
         <div className="w-full max-w-4xl bg-card/50 backdrop-blur-sm border-2 border-primary/50 neon-border rounded-lg p-8 mb-8">
           <div className="flex items-center justify-between mb-6">
@@ -104,7 +135,7 @@ const Index = () => {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => setAudioPlaying(!audioPlaying)}
+              onClick={toggleAudio}
               className="border-secondary text-secondary hover:bg-secondary/10"
             >
               <Icon name={audioPlaying ? 'Volume2' : 'VolumeX'} size={24} />
@@ -144,18 +175,22 @@ const Index = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-3 gap-6 text-center max-w-2xl w-full">
-          <div className="bg-card/30 border border-primary/30 rounded-lg p-4">
-            <Icon name="Zap" className="mx-auto mb-2 text-primary" size={32} />
-            <div className="text-sm text-muted-foreground">Киберпанк</div>
+        <div className="grid grid-cols-4 gap-4 text-center max-w-3xl w-full">
+          <div className="bg-card/30 border border-primary/30 rounded-lg p-3 hover:border-primary transition-colors">
+            <Icon name="Database" className="mx-auto mb-2 text-primary" size={28} />
+            <div className="text-xs text-muted-foreground font-bold">DATA BANK</div>
           </div>
-          <div className="bg-card/30 border border-secondary/30 rounded-lg p-4">
-            <Icon name="Puzzle" className="mx-auto mb-2 text-secondary" size={32} />
-            <div className="text-sm text-muted-foreground">Головоломка</div>
+          <div className="bg-card/30 border border-secondary/30 rounded-lg p-3 hover:border-secondary transition-colors">
+            <Icon name="Cpu" className="mx-auto mb-2 text-secondary" size={28} />
+            <div className="text-xs text-muted-foreground font-bold">HOLLOW CORE</div>
           </div>
-          <div className="bg-card/30 border border-primary/30 rounded-lg p-4">
-            <Icon name="Gift" className="mx-auto mb-2 text-primary" size={32} />
-            <div className="text-sm text-muted-foreground">Подарок</div>
+          <div className="bg-card/30 border border-primary/30 rounded-lg p-3 hover:border-primary transition-colors">
+            <Icon name="Shield" className="mx-auto mb-2 text-primary" size={28} />
+            <div className="text-xs text-muted-foreground font-bold">BANGBOO</div>
+          </div>
+          <div className="bg-card/30 border border-secondary/30 rounded-lg p-3 hover:border-secondary transition-colors">
+            <Icon name="Sparkles" className="mx-auto mb-2 text-secondary" size={28} />
+            <div className="text-xs text-muted-foreground font-bold">INTER-KNOT</div>
           </div>
         </div>
       </div>
