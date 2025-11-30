@@ -123,7 +123,7 @@ const Index = () => {
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-50" />
 
       <audio ref={audioRef} loop>
-        <source src="https://cdn.pixabay.com/audio/2024/08/05/audio_6f0ed34aea.mp3" type="audio/mpeg" />
+        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_4de3643f87.mp3" type="audio/mpeg" />
       </audio>
 
       <div className="absolute top-8 left-8 flex gap-4 z-20">
